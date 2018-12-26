@@ -17,6 +17,7 @@ COPY --from=build /root/.cabal/bin/hlint /root/.cabal/bin/hlint
 COPY --from=build /root/.cabal/share/x86_64-linux-ghc-8.4.3/hlint-2.1.12 /root/.cabal/share/x86_64-linux-ghc-8.4.3/hlint-2.1.12
 RUN hlint --version
 
+WORKDIR /code/
 # Build arguments
 ARG BUILD_DATE
 ARG BUILD_REF
