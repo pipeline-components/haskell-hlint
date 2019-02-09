@@ -1,6 +1,6 @@
-FROM alpine:3.8 as build
+FROM alpine:3.9 as build
 
-RUN apk --no-cache add curl=7.61.1-r1 cabal=2.2.0.0-r0 ghc=8.4.3-r0 build-base=0.5-r1 upx=3.94-r0
+RUN apk --no-cache add curl=7.63.0-r0 cabal=2.2.0.0-r0 ghc=8.4.3-r0 build-base=0.5-r1 upx=3.95-r1
 RUN mkdir -p /app/hlint
 WORKDIR /app/hlint
 RUN cabal update 
@@ -10,9 +10,9 @@ RUN cabal install --jobs  --enable-executable-stripping --enable-optimization=2 
 
 RUN upx -9 /root/.cabal/bin/hlint
 
-FROM alpine:3.8
+FROM alpine:3.9
 RUN ln -nfs /root/.cabal/bin/hlint /usr/local/bin/hlint && \
-    apk --no-cache add libffi=3.2.1-r4 libgmpxx=6.1.2-r1
+    apk --no-cache add libffi=3.2.1-r6 libgmpxx=6.1.2-r1
 COPY --from=build /root/.cabal/bin/hlint /root/.cabal/bin/hlint
 COPY --from=build /root/.cabal/share/x86_64-linux-ghc-8.4.3/hlint-2.1.12 /root/.cabal/share/x86_64-linux-ghc-8.4.3/hlint-2.1.12
 RUN hlint --version
