@@ -1,5 +1,5 @@
 ---
-name: "haskell-hlint"
+name: "pipeline-components-haskell-hlint"
 description: "haskell-hlint by Pipeline Components"
 author: "Robbert Müller <spam.me@grols.ch>"
 branding:
