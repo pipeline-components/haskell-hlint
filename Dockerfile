@@ -1,6 +1,7 @@
 FROM alpine:3.11.6 as build
 
-RUN apk --no-cache add curl=7.67.0-r0 cabal=2.4.1.0-r0 ghc=8.6.5-r3 build-base=0.5-r1 upx=3.95-r2
+# hadolint ignore=DL3018
+RUN apk --no-cache add curl cabal=2.4.1.0-r0 ghc=8.6.5-r3 build-base upx
 RUN mkdir -p /app/hlint
 WORKDIR /app/hlint
 RUN cabal update
