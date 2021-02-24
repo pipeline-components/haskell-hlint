@@ -11,7 +11,7 @@ RUN cabal install --jobs  --enable-executable-stripping --enable-optimization=2 
 
 RUN upx -9 /root/.cabal/bin/hlint
 
-FROM pipelinecomponents/base-entrypoint:0.3.0 as entrypoint
+FROM pipelinecomponents/base-entrypoint:0.4.0 as entrypoint
 
 FROM alpine:3.11.6
 COPY --from=entrypoint /entrypoint.sh /entrypoint.sh
