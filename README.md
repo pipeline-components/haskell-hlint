@@ -26,7 +26,7 @@ A configfile called `.hlint.yaml` is required, and a default can ben generated w
 ```yaml
 haskell-hlint:
   stage: linting
-  image: pipelinecomponents/haskell-hlint:latest
+  image: registry.gitlab.com/pipeline-components/haskell-hlint:latest
   script:
     - hlint .
 ```
@@ -36,7 +36,7 @@ To use parallel processing
 ```yaml
 haskell-hlint:
   stage: linting
-  image: pipelinecomponents/haskell-hlint:latest
+  image: registry.gitlab.com/pipeline-components/haskell-hlint:latest
   script:
     - hlint -j .
 ```
