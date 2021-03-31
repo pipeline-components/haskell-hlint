@@ -1,4 +1,4 @@
-FROM alpine:3.11.9 as build
+FROM alpine:3.11.10 as build
 
 # hadolint ignore=DL3018
 RUN apk --no-cache add curl cabal=2.4.1.0-r0 ghc=8.6.5-r3 build-base upx
@@ -13,7 +13,7 @@ RUN upx -9 /root/.cabal/bin/hlint
 
 FROM pipelinecomponents/base-entrypoint:0.4.0 as entrypoint
 
-FROM alpine:3.11.9
+FROM alpine:3.11.10
 COPY --from=entrypoint /entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 ENV DEFAULTCMD hlint
