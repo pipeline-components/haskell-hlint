@@ -1,15 +1,14 @@
 FROM alpine:3.11.13 as build
 
 # hadolint ignore=DL3018
-RUN apk --no-cache add curl cabal=2.4.1.0-r0 ghc=8.6.5-r3 build-base upx
-RUN mkdir -p /app/hlint
+RUN apk --no-cache add curl cabal=2.4.1.0-r0 ghc=8.6.5-r3 build-base upx && \
+    mkdir -p /app/hlint
 WORKDIR /app/hlint
-RUN cabal update
+RUN cabal update && \
 # Preinstall happy, because otherwise cabal is unhappy
-RUN cabal install --jobs  --enable-executable-stripping --enable-optimization=2 --enable-shared --enable-split-sections  --disable-debug-info  happy-1.19.9
-RUN cabal install --jobs  --enable-executable-stripping --enable-optimization=2 --enable-shared --enable-split-sections  --disable-debug-info  hlint-2.1.12
-
-RUN upx -9 /root/.cabal/bin/hlint
+    cabal install --jobs  --enable-executable-stripping --enable-optimization=2 --enable-shared --enable-split-sections  --disable-debug-info  happy-1.19.9  && \
+    cabal install --jobs  --enable-executable-stripping --enable-optimization=2 --enable-shared --enable-split-sections  --disable-debug-info  hlint-2.1.12  && \
+    upx -9 /root/.cabal/bin/hlint
 
 FROM pipelinecomponents/base-entrypoint:0.5.0 as entrypoint
 
