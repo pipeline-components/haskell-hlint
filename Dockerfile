@@ -1,7 +1,7 @@
 FROM alpine:3.15.1 as build
 
 # hadolint ignore=DL3018
-RUN apk --no-cache add curl cabal=2.4.1.0-r0 ghc=8.6.5-r3 build-base upx && \
+RUN apk --no-cache add curl cabal=3.6.2.0-r1 ghc build-base upx libffi-dev && \
     mkdir -p /app/hlint
 WORKDIR /app/hlint
 RUN cabal update && \
@@ -18,7 +18,7 @@ ENTRYPOINT ["/entrypoint.sh"]
 ENV DEFAULTCMD hlint
 
 RUN ln -nfs /root/.cabal/bin/hlint /usr/local/bin/hlint && \
-    apk --no-cache add libffi=3.2.1-r6 libgmpxx=6.1.2-r1
+    apk --no-cache add libffi libgmpxx
 COPY --from=build /root/.cabal/bin/hlint /root/.cabal/bin/hlint
 COPY --from=build /root/.cabal/share/x86_64-linux-ghc-8.6.5/hlint-2.1.12 /root/.cabal/share/x86_64-linux-ghc-8.6.5/hlint-2.1.12
 RUN hlint --version
