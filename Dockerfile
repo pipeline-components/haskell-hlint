@@ -1,4 +1,5 @@
 FROM alpine:3.15.1 as build
+SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
 # hadolint ignore=DL3018
 RUN apk --no-cache add curl cabal=3.6.2.0-r1 ghc build-base upx libffi-dev && \
