@@ -20,3 +20,10 @@ test amd64 defaultcmd:
   extends: .test
   script:
     - docker run --rm "${CI_REGISTRY_IMAGE}/build:${BUILD_ARCH}-${CI_COMMIT_SHA}" --version
+
+test amd64 testhlint:
+  variables:
+    BUILD_ARCH: amd64
+  extends: .test
+  script:
+    - docker run --rm -v $(pwd)/test:/code "${CI_REGISTRY_IMAGE}/build:${BUILD_ARCH}-${CI_COMMIT_SHA}" hlint .
