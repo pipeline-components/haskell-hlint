@@ -34,7 +34,7 @@ RUN ln -nfs "$(find /root/.cabal -name hlint)" /usr/local/bin/hlint
 RUN \
     cd "$(dirname $(dirname $(find /root/.cabal -name hlint)))" && \
     mkdir bin/data && \
-    cp share/default.yaml bin/data
+    cp share/default.yaml share/hlint.yaml bin/data
 
 RUN hlint --version && hlint -d
 
