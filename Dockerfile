@@ -33,8 +33,7 @@ RUN ln -nfs "$(find /root/.cabal -name hlint)" /usr/local/bin/hlint
 # hadolint ignore=DL3003,SC2046
 RUN \
     cd "$(dirname $(dirname $(find /root/.cabal -name hlint)))" && \
-    mkdir bin/data && \
-    cp share/default.yaml share/hlint.yaml bin/data
+    cp -a share bin/data
 
 RUN hlint --version && hlint -d
 
