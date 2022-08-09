@@ -15,7 +15,7 @@
 ## Usage
 
 The image is for running haskell-hlint.
-The image is based on alpine:3.8.
+The image is based on alpine:3.15.
 
 A configfile called `.hlint.yaml` is required, and a default can ben generated with:
 
