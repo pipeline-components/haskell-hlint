@@ -1,8 +1,8 @@
-FROM alpine:3.15.7 as build
+FROM alpine:3.17.1 as build
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
 # hadolint ignore=DL3018
-RUN apk --no-cache add curl cabal=3.6.2.0-r1 ghc build-base upx libffi-dev && \
+RUN apk --no-cache add curl cabal=3.8.1.0-r2 ghc build-base upx libffi-dev && \
     mkdir -p /app/hlint
 WORKDIR /app/hlint
 RUN cabal update && \
@@ -18,7 +18,7 @@ RUN \
 
 FROM pipelinecomponents/base-entrypoint:0.5.0 as entrypoint
 
-FROM alpine:3.15.7
+FROM alpine:3.17.1
 COPY --from=entrypoint /entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 ENV DEFAULTCMD hlint
