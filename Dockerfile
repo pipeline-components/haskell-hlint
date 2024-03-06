@@ -2,11 +2,11 @@ FROM alpine:3.19.1 as build
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
 # hadolint ignore=DL3018
-RUN apk --no-cache add curl cabal=3.8.1.0-r2 ghc build-base upx libffi-dev && \
+RUN apk --no-cache add curl cabal ghc build-base upx libffi-dev && \
     mkdir -p /app/hlint
 WORKDIR /app/hlint
 RUN cabal update && \
-    cabal install --jobs  --enable-executable-stripping --enable-optimization=2 --enable-shared --enable-split-sections  --disable-debug-info  hlint-2.1.12  && \
+    cabal install --jobs  --enable-executable-stripping --enable-optimization=2 --enable-shared --enable-split-sections  --disable-debug-info  hlint-3.8  && \
     upx -9 "$(readlink -f /root/.local/bin/hlint)"
 
 # hadolint ignore=SC2046
