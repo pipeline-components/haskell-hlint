@@ -1,18 +1,18 @@
-FROM alpine:3.17.7 as build
+FROM alpine:3.19.1 as build
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
 # hadolint ignore=DL3018
-RUN apk --no-cache add curl cabal=3.8.1.0-r2 ghc build-base upx libffi-dev && \
+RUN apk --no-cache add curl cabal ghc build-base upx libffi-dev && \
     mkdir -p /app/hlint
 WORKDIR /app/hlint
 RUN cabal update && \
-    cabal install --jobs  --enable-executable-stripping --enable-optimization=2 --enable-shared --enable-split-sections  --disable-debug-info  hlint-2.1.12  && \
-    upx -9 "$(readlink -f /root/.cabal/bin/hlint)"
+    cabal install --jobs  --enable-executable-stripping --enable-optimization=2 --enable-shared --enable-split-sections  --disable-debug-info  hlint-3.8  && \
+    upx -9 "$(readlink -f /root/.local/bin/hlint)"
 
 # hadolint ignore=SC2046
 RUN \
-    find "$(dirname $(dirname $(readlink -f /root/.cabal/bin/hlint)))" | tar -cf /tmp/temp.tar -T /dev/stdin && \
-    rm -rf /root/.cabal/store/ && \
+    find "$(dirname $(dirname $(readlink -f /root/.local/bin/hlint)))" | tar -cf /tmp/temp.tar -T /dev/stdin && \
+    rm -rf /root/.local/state/cabal/store/ && \
     tar -xf /tmp/temp.tar -C / && \
     rm /tmp/temp.tar
 
@@ -25,14 +25,14 @@ ENV DEFAULTCMD hlint
 
 # hadolint ignore=DL3018
 RUN apk --no-cache add libffi libgmpxx
-COPY --from=build /root/.cabal/store /root/.cabal/store
-RUN find /root/.cabal/
-RUN ln -nfs "$(find /root/.cabal -name hlint)" /usr/local/bin/hlint
+COPY --from=build /root/.local/state/cabal/store /root/.local/state/cabal/store
+RUN find /root/.local/state/cabal/
+RUN ln -nfs "$(find /root/.local/state/cabal -name hlint)" /usr/local/bin/hlint
 
 # Workdir not posible for dynamic discovered paths
 # hadolint ignore=DL3003,SC2046
 RUN \
-    cd "$(dirname $(dirname $(find /root/.cabal -name hlint)))" && \
+    cd "$(dirname $(dirname $(find /root/.local/state/cabal -name hlint)))" && \
     cp -a share bin/data
 
 RUN hlint --version && hlint -d
