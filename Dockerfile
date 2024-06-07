@@ -1,4 +1,4 @@
-FROM alpine:3.19.1 as build
+FROM alpine:3.20.0 as build
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
 # hadolint ignore=DL3018
@@ -18,7 +18,7 @@ RUN \
 
 FROM pipelinecomponents/base-entrypoint:0.5.0 as entrypoint
 
-FROM alpine:3.19.1
+FROM alpine:3.20.0
 COPY --from=entrypoint /entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 ENV DEFAULTCMD hlint
