@@ -6,7 +6,7 @@ RUN apk --no-cache add curl cabal ghc build-base upx libffi-dev && \
     mkdir -p /app/hlint
 WORKDIR /app/hlint
 RUN cabal update && \
-    cabal install --jobs  --enable-executable-stripping --enable-optimization=2 --enable-shared --enable-split-sections  --disable-debug-info  hlint-3.8  && \
+    cabal install --jobs  --enable-executable-stripping --enable-optimization=2 --enable-shared --enable-split-sections  --disable-debug-info  hlint-3.10  && \
     upx -9 "$(readlink -f /root/.local/bin/hlint)"
 
 # hadolint ignore=SC2046
