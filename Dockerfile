@@ -1,4 +1,4 @@
-FROM alpine:3.21.3 as build
+FROM alpine:3.21.3 AS build
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
 # hadolint ignore=DL3018
@@ -16,7 +16,7 @@ RUN \
     tar -xf /tmp/temp.tar -C / && \
     rm /tmp/temp.tar
 
-FROM pipelinecomponents/base-entrypoint:0.5.0 as entrypoint
+FROM pipelinecomponents/base-entrypoint:0.5.0 AS entrypoint
 
 FROM alpine:3.21.3
 COPY --from=entrypoint /entrypoint.sh /entrypoint.sh
